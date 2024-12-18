@@ -1,0 +1,3 @@
+
+mitmproxy==11
+mitmproxy_wireguard==0.1.23
