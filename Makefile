@@ -3,7 +3,7 @@ APP_NAME = my-mitmproxy-app
 DOCKERFILE = Dockerfile
 PORT = 52233
 ECR_REPO = 352611772821.dkr.ecr.us-east-2.amazonaws.com/core/hocuspocus
-
+CONTAINER_PORT = 8080
 # Check if Docker is installed
 DOCKER_CHECK = $(shell docker --version > /dev/null 2>&1 && echo "yes" || echo "no")
 
@@ -55,7 +55,7 @@ build: $(DOCKERFILE) requirements.txt
 .PHONY: run
 run:
 	@echo "Running Docker container..."
-	docker run -v /Users/tushartimande/code/hocuspocus/tmp:/tmp -p $(PORT):$(PORT) $(APP_NAME)
+	docker run -v ~/.mitmproxy:/home/mitmproxy/.mitmproxy -p $(PORT):$(CONTAINER_PORT) $(APP_NAME)
 
 # Pull Docker image from ECR
 .PHONY: pull
@@ -75,7 +75,7 @@ push: buildlinux
 .PHONY: runlinux
 runlinux: pull
 	@echo "Running Docker container for linux/amd64..."
-	docker run --platform linux/amd64 -v /home/ubuntu/code/tmp:/tmp -p $(PORT):$(PORT) $(APP_NAME)
+	docker run --platform linux/amd64 -v ~/.mitmproxy:/home/mitmproxy/.mitmproxy -p $(PORT):$(CONTAINER_PORT) $(APP_NAME)
 
 # Login to ECR
 .PHONY: login
